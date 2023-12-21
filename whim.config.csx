@@ -156,7 +156,7 @@ void DoConfig(IContext context)
     context.CommandManager.Add(
             identifier:"swap_workspace_with_next_monitor", 
             title: "Swap monitors",
-            callback: () => context.WorkspaceManager.SwapActiveWorkspaceWithNextMonitor()
+            callback: () => context.WorkspaceManager.SwapActiveWorkspaceWithAdjacentMonitor()
     );
 
     // Activate adjacent workspace, skipping over those that are active on other monitors
