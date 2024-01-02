@@ -5,6 +5,7 @@
 #r "C:\Users\rober\dev\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.FocusIndicator\Whim.FocusIndicator.dll"
 #r "C:\Users\rober\dev\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.Gaps\Whim.Gaps.dll"
 #r "C:\Users\rober\dev\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.LayoutPreview\Whim.LayoutPreview.dll"
+#r "C:\Users\rober\dev\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.SliceLayout\Whim.SliceLayout.dll"
 #r "C:\Users\rober\dev\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.TreeLayout\Whim.TreeLayout.dll"
 #r "C:\Users\rober\dev\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.TreeLayout.Bar\Whim.TreeLayout.Bar.dll"
 #r "C:\Users\rober\dev\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.TreeLayout.CommandPalette\Whim.TreeLayout.CommandPalette.dll"
@@ -16,6 +17,7 @@
 // #r "C:\Users\rober\AppData\Local\Programs\Whim\plugins\Whim.FocusIndicator\Whim.FocusIndicator.dll"
 // #r "C:\Users\rober\AppData\Local\Programs\Whim\plugins\Whim.Gaps\Whim.Gaps.dll"
 // #r "C:\Users\rober\AppData\Local\Programs\Whim\plugins\Whim.LayoutPreview\Whim.LayoutPreview.dll"
+// #r "C:\Users\rober\AppData\Local\Programs\Whim\plugins\Whim.SliceLayout\Whim.SliceLayout.dll"
 // #r "C:\Users\rober\AppData\Local\Programs\Whim\plugins\Whim.TreeLayout\Whim.TreeLayout.dll"
 // #r "C:\Users\rober\AppData\Local\Programs\Whim\plugins\Whim.TreeLayout.Bar\Whim.TreeLayout.Bar.dll"
 // #r "C:\Users\rober\AppData\Local\Programs\Whim\plugins\Whim.TreeLayout.CommandPalette\Whim.TreeLayout.CommandPalette.dll"
@@ -30,6 +32,7 @@ using Whim.FloatingLayout;
 using Whim.FocusIndicator;
 using Whim.Gaps;
 using Whim.LayoutPreview;
+using Whim.SliceLayout;
 using Whim.TreeLayout;
 using Whim.TreeLayout.Bar;
 using Whim.TreeLayout.CommandPalette;
@@ -106,34 +109,92 @@ void DoConfig(IContext context)
      * Workspaces *
      **************/
 
-    // Tree layout.
+    // Slice layout
+    SliceLayoutPlugin sliceLayoutPlugin = new(context);
+    context.PluginManager.AddPlugin(sliceLayoutPlugin);
+
+    // Tree layout
     TreeLayoutPlugin treeLayoutPlugin = new(context);
     context.PluginManager.AddPlugin(treeLayoutPlugin);
 
-    // Tree layout bar.
+    // Tree layout bar
     TreeLayoutBarPlugin treeLayoutBarPlugin = new(treeLayoutPlugin);
     context.PluginManager.AddPlugin(treeLayoutBarPlugin);
     rightComponents.Add(treeLayoutBarPlugin.CreateComponent());
 
-    // Tree layout command palette.
+    // Tree layout command palette
     TreeLayoutCommandPalettePlugin treeLayoutCommandPalettePlugin = new(context, treeLayoutPlugin, commandPalettePlugin);
     context.PluginManager.AddPlugin(treeLayoutCommandPalettePlugin);
 
-    // Layout preview.
+    // Layout preview
     LayoutPreviewPlugin layoutPreviewPlugin = new(context);
     context.PluginManager.AddPlugin(layoutPreviewPlugin);
 
-    // Set up workspaces.
+    // Set up workspaces
     context.WorkspaceManager.Add("\udb81\udea1");   // main icon:  nf-md-home_outline
     context.WorkspaceManager.Add("\udb80\udd74");   // dev icon:   nf-md-code_tags
     context.WorkspaceManager.Add("\udb80\udde7");   // web icon:   nf-md-earth
     context.WorkspaceManager.Add("\udb85\uddd6");   // other icon: nf-md-book_open_page_variant_outline
 
-    // Set up layout engines.
+    /*****e*****
+     * Layouts *
+     ***********/
+
     context.WorkspaceManager.CreateLayoutEngines = () => new CreateLeafLayoutEngine[]
     {
-        (id) => new TreeLayoutEngine(context, treeLayoutPlugin, id),
-        (id) => new ColumnLayoutEngine(id)
+
+    (id) => new SliceLayoutEngine(
+        context,
+        sliceLayoutPlugin,
+        id,
+        new ParentArea(
+            isRow: true,
+            (0.25, new SliceArea(order: 1, maxChildren: 2)),
+            (0.5,
+                new ParentArea(
+                    isRow: false,
+                    (0.5, new SliceArea(order: 0, maxChildren: 1)),
+                    (0.5, new SliceArea(order: 3, maxChildren: 1))
+                )
+             ),
+            (0.25,
+                new ParentArea(
+                    isRow: false,
+                    (0.667, new SliceArea(order: 2, maxChildren: 2)),
+                    (0.333, new OverflowArea())
+                )
+             )
+        )
+    ) { Name = "Grid"},
+
+    (id) => new SliceLayoutEngine(
+        context,
+        sliceLayoutPlugin,
+        id,
+        new ParentArea(
+            isRow: true,
+            (0.4, new OverflowArea()),
+            (0.6, new SliceArea(order: 0, maxChildren: 1))
+        )
+    ) { Name = "Primary Stack"},
+
+    (id) => new SliceLayoutEngine(
+        context,
+        sliceLayoutPlugin,
+        id,
+        new ParentArea(
+            isRow: true,
+            (0.25, new SliceArea(order: 1, maxChildren: 2)),
+            (0.5, new SliceArea(order: 0, maxChildren: 1)),
+            (0.25, new OverflowArea())
+        )
+    ) { Name = "Secondary Stack"}
+
+
+    // (id) => SliceLayouts.CreatePrimaryStackLayout(context, sliceLayoutPlugin, id),
+    // (id) => new TreeLayoutEngine(context, treeLayoutPlugin, id),
+    // (id) => new ColumnLayoutEngine(id),
+
     };
 
     /*******************
@@ -185,9 +246,9 @@ void DoConfig(IContext context)
 
     // Close active window
     context.CommandManager.Add(
-            identifier:"close_window", 
-            title: "close focused window",
-            callback: () => context.WorkspaceManager.ActiveWorkspace.LastFocusedWindow.Close()
+        identifier:"close_window", 
+        title: "close focused window",
+        callback: () => context.WorkspaceManager.ActiveWorkspace.LastFocusedWindow.Close()
     );
 
     // Move window to next monitor variant that refocuses moved window after 200ms
@@ -262,6 +323,7 @@ void DoConfig(IContext context)
     Bind(Mod1, VIRTUAL_KEY.VK_I, "whim.core.focus_window_in_direction.right");
     Bind(Mod1, VIRTUAL_KEY.VK_U, "whim.core.focus_window_in_direction.up");
     Bind(Mod1, VIRTUAL_KEY.VK_E, "whim.core.focus_window_in_direction.down");
+    Bind(Mod1, VIRTUAL_KEY.VK_M, "whim.slice_layout.focus.promote");
     Bind(Mod1, VIRTUAL_KEY.VK_O, "whim.core.focus_next_monitor");
 
     // Move windows
@@ -269,6 +331,7 @@ void DoConfig(IContext context)
     Bind(Mod2, VIRTUAL_KEY.VK_I, "whim.core.swap_window_in_direction.right");
     Bind(Mod2, VIRTUAL_KEY.VK_U, "whim.core.swap_window_in_direction.up");
     Bind(Mod2, VIRTUAL_KEY.VK_E, "whim.core.swap_window_in_direction.down");
+    Bind(Mod2, VIRTUAL_KEY.VK_M, "whim.slice_layout.window.promote");
     Bind(Mod2, VIRTUAL_KEY.VK_O, "whim.custom.move_window_to_next_monitor");
 
     // Workspaces
