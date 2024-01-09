@@ -1,27 +1,16 @@
 #nullable enable
-#r "C:\Users\rober\dev\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.Bar\Whim.Bar.dll"
-#r "C:\Users\rober\dev\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.CommandPalette\Whim.CommandPalette.dll"
-#r "C:\Users\rober\dev\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.FloatingLayout\Whim.FloatingLayout.dll"
-#r "C:\Users\rober\dev\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.FocusIndicator\Whim.FocusIndicator.dll"
-#r "C:\Users\rober\dev\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.Gaps\Whim.Gaps.dll"
-#r "C:\Users\rober\dev\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.LayoutPreview\Whim.LayoutPreview.dll"
-#r "C:\Users\rober\dev\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.SliceLayout\Whim.SliceLayout.dll"
-#r "C:\Users\rober\dev\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.TreeLayout\Whim.TreeLayout.dll"
-#r "C:\Users\rober\dev\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.TreeLayout.Bar\Whim.TreeLayout.Bar.dll"
-#r "C:\Users\rober\dev\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.TreeLayout.CommandPalette\Whim.TreeLayout.CommandPalette.dll"
-#r "C:\Users\rober\dev\Whim\src\Whim.Runner\bin\x64\Debug\net7.0-windows10.0.19041.0\plugins\Whim.Updater\Whim.Updater.dll"
-
-// #r "C:\Users\rober\AppData\Local\Programs\Whim\plugins\Whim.Bar\Whim.Bar.dll"
-// #r "C:\Users\rober\AppData\Local\Programs\Whim\plugins\Whim.CommandPalette\Whim.CommandPalette.dll"
-// #r "C:\Users\rober\AppData\Local\Programs\Whim\plugins\Whim.FloatingLayout\Whim.FloatingLayout.dll"
-// #r "C:\Users\rober\AppData\Local\Programs\Whim\plugins\Whim.FocusIndicator\Whim.FocusIndicator.dll"
-// #r "C:\Users\rober\AppData\Local\Programs\Whim\plugins\Whim.Gaps\Whim.Gaps.dll"
-// #r "C:\Users\rober\AppData\Local\Programs\Whim\plugins\Whim.LayoutPreview\Whim.LayoutPreview.dll"
-// #r "C:\Users\rober\AppData\Local\Programs\Whim\plugins\Whim.SliceLayout\Whim.SliceLayout.dll"
-// #r "C:\Users\rober\AppData\Local\Programs\Whim\plugins\Whim.TreeLayout\Whim.TreeLayout.dll"
-// #r "C:\Users\rober\AppData\Local\Programs\Whim\plugins\Whim.TreeLayout.Bar\Whim.TreeLayout.Bar.dll"
-// #r "C:\Users\rober\AppData\Local\Programs\Whim\plugins\Whim.TreeLayout.CommandPalette\Whim.TreeLayout.CommandPalette.dll"
-// #r "C:\Users\rober\AppData\Local\Programs\Whim\plugins\Whim.Updater\Whim.Updater.dll"
+#r "WHIM_PATH\whim.dll"
+#r "WHIM_PATH\plugins\Whim.Bar\Whim.Bar.dll"
+#r "WHIM_PATH\plugins\Whim.CommandPalette\Whim.CommandPalette.dll"
+#r "WHIM_PATH\plugins\Whim.FloatingLayout\Whim.FloatingLayout.dll"
+#r "WHIM_PATH\plugins\Whim.FocusIndicator\Whim.FocusIndicator.dll"
+#r "WHIM_PATH\plugins\Whim.Gaps\Whim.Gaps.dll"
+#r "WHIM_PATH\plugins\Whim.LayoutPreview\Whim.LayoutPreview.dll"
+#r "WHIM_PATH\plugins\Whim.SliceLayout\Whim.SliceLayout.dll"
+#r "WHIM_PATH\plugins\Whim.TreeLayout\Whim.TreeLayout.dll"
+#r "WHIM_PATH\plugins\Whim.TreeLayout.Bar\Whim.TreeLayout.Bar.dll"
+#r "WHIM_PATH\plugins\Whim.TreeLayout.CommandPalette\Whim.TreeLayout.CommandPalette.dll"
+#r "WHIM_PATH\plugins\Whim.Updater\Whim.Updater.dll"
 
 using System;
 using System.Collections.Generic;
@@ -46,7 +35,7 @@ using System.Threading.Tasks;
 
 void DoConfig(IContext context)
 {
-    context.Logger.Config = new LoggerConfig();
+    context.Logger.Config = new LoggerConfig() { BaseMinLogLevel = LogLevel.Debug };
 
     /**************
      * Status bar *
@@ -64,7 +53,8 @@ void DoConfig(IContext context)
     List<BarComponent> centerComponents = new() { FocusedWindowWidget.CreateComponent() };
     List<BarComponent> rightComponents = new()
     {
-        DateTimeWidget.CreateComponent(60*1000, "MM/dd  ·  hh:mm t\\M")
+        // BatteryWidget.CreateComponent(),
+        DateTimeWidget.CreateComponent(60*1000, "M/d/yy  ·  h:mm tt")
     };
 
     BarConfig barConfig = new(leftComponents, centerComponents, rightComponents) { };
@@ -74,10 +64,10 @@ void DoConfig(IContext context)
     /****************
      * Updater      *
      ****************/
-	
+
     // UpdaterConfig updaterConfig = new() { ReleaseChannel = ReleaseChannel.Alpha };
-	// UpdaterPlugin updaterPlugin = new(context, updaterConfig);
-	// context.PluginManager.AddPlugin(updaterPlugin);
+    // UpdaterPlugin updaterPlugin = new(context, updaterConfig);
+    // context.PluginManager.AddPlugin(updaterPlugin);
 
     /****************
      * Misc plugins *
@@ -188,8 +178,9 @@ void DoConfig(IContext context)
             (0.5, new SliceArea(order: 0, maxChildren: 1)),
             (0.25, new OverflowArea())
         )
-    ) { Name = "Secondary Stack"}
+    ) { Name = "Secondary Stack"},
 
+    (id) => new FocusLayoutEngine(id)
 
     // (id) => SliceLayouts.CreatePrimaryStackLayout(context, sliceLayoutPlugin, id),
     // (id) => new TreeLayoutEngine(context, treeLayoutPlugin, id),
@@ -246,16 +237,58 @@ void DoConfig(IContext context)
 
     // Close active window
     context.CommandManager.Add(
-        identifier:"close_window", 
-        title: "close focused window",
+        identifier: "close_window",
+        title: "Close focused window",
         callback: () => context.WorkspaceManager.ActiveWorkspace.LastFocusedWindow.Close()
+    );
+
+    // Toggle focus layout
+    context.CommandManager.Add(
+            identifier: "toggle_focus_layout",
+            title: "Toggle focus layout",
+            callback: () =>
+            {
+                if (context.WorkspaceManager.ActiveWorkspace.ActiveLayoutEngine.Name == "Focus")
+                {
+                    context.WorkspaceManager.ActiveWorkspace.LastActiveLayoutEngine();
+                }
+                else
+                {
+                    context.WorkspaceManager.ActiveWorkspace.SetLayoutEngineFromName("Focus");
+                }
+            }
+    );
+
+    // Toggle maximized if focus layout is active, otherwise activate focus layout and set maximized to true
+    context.CommandManager.Add(
+            identifier: "toggle_focus_maximize",
+            title: "Toggle focus layout maximize state",
+            callback: () =>
+            {
+                IWorkspace workspace = context.WorkspaceManager.ActiveWorkspace;
+                if (workspace.ActiveLayoutEngine.Name == "Focus")
+                {
+                    context.CommandManager.TryGetCommand("whim.core.focus_layout.toggle_maximized").TryExecute();
+                }
+                else
+                {
+                    workspace.SetLayoutEngineFromName("Focus");
+                    workspace.PerformCustomLayoutEngineAction(
+                        new LayoutEngineCustomAction()
+                        {
+                            Name = "Focus.set_maximized",
+                            Window = null
+                        }
+                    );
+                }
+            }
     );
 
     // Move window to next monitor variant that refocuses moved window after 200ms
     context.CommandManager.Add(
         identifier: "move_window_to_next_monitor",
         title: "Move focused window to the next monitor",
-        callback: () => 
+        callback: () =>
         {
             // Get the next monitor.
             IMonitor monitor = context.MonitorManager.ActiveMonitor;
@@ -350,7 +383,8 @@ void DoConfig(IContext context)
 
     // Manipulate windows
     Bind(Mod1, VIRTUAL_KEY.VK_T, "whim.floating_layout.toggle_window_floating");
-    Bind(Mod1, VIRTUAL_KEY.VK_F, "whim.core.maximize_window");
+    Bind(Mod1, VIRTUAL_KEY.VK_F, "whim.custom.toggle_focus_layout");
+    Bind(Mod2, VIRTUAL_KEY.VK_F, "whim.custom.toggle_focus_maximize");
     Bind(Mod1, VIRTUAL_KEY.VK_X, "whim.core.minimize_window");
     Bind(Mod2, VIRTUAL_KEY.VK_C, "whim.custom.close_window");
 
@@ -361,9 +395,10 @@ void DoConfig(IContext context)
     // context.FilterManager.Clear();
     context.FilterManager.AddTitleMatchFilter(".*[s|S]etup.*");
     context.FilterManager.AddTitleMatchFilter(".*[i|I]nstaller.*");
+    context.FilterManager.AddProcessFileNameFilter("X-Mouse Controls.exe");
 
     context.RouterManager.AddProcessFileNameRoute("firefox.exe", "\udb80\udde7");
-    context.RouterManager.RouteToActiveWorkspace = true;
+    context.RouterManager.RouterOptions = RouterOptions.RouteToLastTrackedActiveWorkspace;
 
 }
 
