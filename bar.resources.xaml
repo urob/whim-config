@@ -6,7 +6,7 @@
     </Style>
 
     <!--  Font family  -->
-    <FontFamily x:Key="_font:family">Segoe UI</FontFamily>
+    <FontFamily x:Key="_font:family">Segoe UI Variable Small</FontFamily>
 
     <!--  Colors  -->
     <Color x:Key="_base:background">#2e3440</Color>
@@ -89,7 +89,7 @@
         x:Key="bar:date_time:text_block"
         BasedOn="{StaticResource _base:text_block}"
         TargetType="TextBlock">
-        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontSize" Value="12" />
     </Style>
 
 </ResourceDictionary>
