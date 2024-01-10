@@ -82,6 +82,13 @@ void AddUserCommands(IContext context)
                 }
                 else
                 {
+                    workspace.PerformCustomLayoutEngineAction(
+                        new LayoutEngineCustomAction()
+                        {
+                            Name = "Focus.unset_maximized",
+                            Window = null
+                        }
+                    );
                     workspace.SetLayoutEngineFromName("Focus");
                 }
             }
@@ -100,7 +107,6 @@ void AddUserCommands(IContext context)
                 }
                 else
                 {
-                    workspace.SetLayoutEngineFromName("Focus");
                     workspace.PerformCustomLayoutEngineAction(
                         new LayoutEngineCustomAction()
                         {
@@ -108,6 +114,7 @@ void AddUserCommands(IContext context)
                             Window = null
                         }
                     );
+                    workspace.SetLayoutEngineFromName("Focus");
                 }
             }
     );
