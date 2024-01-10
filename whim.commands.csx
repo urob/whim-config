@@ -12,14 +12,14 @@ void AddUserCommands(IContext context)
     context.CommandManager.Add(
             identifier:"next_layout_engine",
             title: "Next Layout Engine",
-            callback: () => context.WorkspaceManager.ActiveWorkspace.NextLayoutEngine()
+            callback: () => context.WorkspaceManager.ActiveWorkspace.CycleLayoutEngine(false)
     );
 
     // Activate previous layout engine in `Workspace._layoutEngines`
     context.CommandManager.Add(
             identifier:"previous_layout_engine",
             title: "Previous Layout Engine",
-            callback: () => context.WorkspaceManager.ActiveWorkspace.PreviousLayoutEngine()
+            callback: () => context.WorkspaceManager.ActiveWorkspace.CycleLayoutEngine(true)
     );
 
     /************************************
@@ -78,7 +78,7 @@ void AddUserCommands(IContext context)
                 IWorkspace workspace = context.WorkspaceManager.ActiveWorkspace;
                 if (workspace.ActiveLayoutEngine.Name == "Focus")
                 {
-                    workspace.LastActiveLayoutEngine();
+                    workspace.ActivatePreviouslyActiveLayoutEngine();
                 }
                 else
                 {
@@ -89,7 +89,7 @@ void AddUserCommands(IContext context)
                             Window = null
                         }
                     );
-                    workspace.SetLayoutEngineFromName("Focus");
+                    workspace.TrySetLayoutEngineFromName("Focus");
                 }
             }
     );
@@ -114,7 +114,7 @@ void AddUserCommands(IContext context)
                             Window = null
                         }
                     );
-                    workspace.SetLayoutEngineFromName("Focus");
+                    workspace.TrySetLayoutEngineFromName("Focus");
                 }
             }
     );
