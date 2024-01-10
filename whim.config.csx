@@ -46,23 +46,23 @@ void DoConfig(IContext context)
     #else
         context.Logger.Config = new LoggerConfig() { BaseMinLogLevel = LogLevel.Error };
     #endif
-    
+
     /***********
      * Plugins *
      ***********/
 
-    // Auto-updater 
+    // Auto-updater
     #if !DEV
         UpdaterConfig updaterConfig = new() { ReleaseChannel = ReleaseChannel.Alpha };
         UpdaterPlugin updaterPlugin = new(context, updaterConfig);
         context.PluginManager.AddPlugin(updaterPlugin);
     #endif
-    
+
     // Command palette
     CommandPaletteConfig commandPaletteConfig = new(context);
     CommandPalettePlugin commandPalettePlugin = new(context, commandPaletteConfig);
     context.PluginManager.AddPlugin(commandPalettePlugin);
-    
+
     // Layout preview
     LayoutPreviewPlugin layoutPreviewPlugin = new(context);
     context.PluginManager.AddPlugin(layoutPreviewPlugin);
@@ -74,7 +74,7 @@ void DoConfig(IContext context)
     // Slice layout
     SliceLayoutPlugin sliceLayoutPlugin = new(context);
     context.PluginManager.AddPlugin(sliceLayoutPlugin);
-    
+
     // Tree layout
     #if TREE
         TreeLayoutPlugin treeLayoutPlugin = new(context);
@@ -86,7 +86,7 @@ void DoConfig(IContext context)
         TreeLayoutCommandPalettePlugin treeLayoutCommandPalettePlugin = new(context, treeLayoutPlugin, commandPalettePlugin);
         context.PluginManager.AddPlugin(treeLayoutCommandPalettePlugin);
     #endif
-    
+
     // Source custom commands
     AddUserCommands(context);
 
@@ -99,18 +99,18 @@ void DoConfig(IContext context)
     context.ResourceManager.AddUserDictionary(file);
 
     // Left components
-    List<BarComponent> leftComponents = new() 
+    List<BarComponent> leftComponents = new()
     {
         ActiveLayoutWidget.CreateComponent(),
         #if TREE
             treeLayoutBarPlugin.CreateComponent(),
         #endif
-        WorkspaceWidget.CreateComponent() 
+        WorkspaceWidget.CreateComponent()
     };
-    
+
     // Center components
     List<BarComponent> centerComponents = new() { FocusedWindowWidget.CreateComponent() };
-    
+
     // Right components, note that these are defined right to left
     List<BarComponent> rightComponents = new()
     {
@@ -127,10 +127,10 @@ void DoConfig(IContext context)
     /**************************
      * Gaps & Focus indicator *
      **************************/
-    
+
     // Total gap = 2x * 150% scaling
     int gap = 3;
-    
+
     // Let focus indicator completely fill gaps
     int borderSize = 3 * gap - 2;
 
@@ -144,7 +144,7 @@ void DoConfig(IContext context)
     FocusIndicatorConfig focusIndicatorConfig = new() { Color = borderBrush, FadeEnabled = false, BorderSize = borderSize };
     FocusIndicatorPlugin focusIndicatorPlugin = new(context, focusIndicatorConfig);
     context.PluginManager.AddPlugin(focusIndicatorPlugin);
-    
+
     /************************
      * Workspaces & layouts *
      ************************/
@@ -170,9 +170,9 @@ void DoConfig(IContext context)
     /****************
      * Key bindings *
      ****************/
-    
+
     // Note: bindings are intended for Colemak-DH keyboard layout and probably don't make much sense for QWERTY
-    
+
     // Modifiers
     KeyModifiers Mod1 = KeyModifiers.LAlt;
     KeyModifiers Mod2 = KeyModifiers.LAlt | KeyModifiers.LShift;
@@ -184,7 +184,7 @@ void DoConfig(IContext context)
 
     // Clear defaults
     context.KeybindManager.Clear();
-    
+
     // Command palette
     Bind(Mod1, VIRTUAL_KEY.VK_P, "whim.command_palette.toggle");
 

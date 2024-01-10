@@ -7,21 +7,21 @@ void AddUserCommands(IContext context)
     /************************
      * Cycle layout engines *
      ************************/
-     
+
     // Activate next layout engine in `Workspace._layoutEngines`
     context.CommandManager.Add(
-            identifier:"next_layout_engine", 
+            identifier:"next_layout_engine",
             title: "Next Layout Engine",
             callback: () => context.WorkspaceManager.ActiveWorkspace.NextLayoutEngine()
     );
-    
+
     // Activate previous layout engine in `Workspace._layoutEngines`
     context.CommandManager.Add(
-            identifier:"previous_layout_engine", 
+            identifier:"previous_layout_engine",
             title: "Previous Layout Engine",
             callback: () => context.WorkspaceManager.ActiveWorkspace.PreviousLayoutEngine()
     );
-    
+
     /************************************
      * Cycle over _inactive_ workspaces *
      ************************************/
@@ -32,7 +32,7 @@ void AddUserCommands(IContext context)
         title: "Activate the previous inactive workspace",
         callback: () => context.WorkspaceManager.ActivateAdjacent(reverse: true, skipActive: true)
     );
-    
+
     // Activate previous workspace, skipping over those that are active on other monitors
     context.CommandManager.Add(
         identifier: "activate_next_workspace",
@@ -46,21 +46,21 @@ void AddUserCommands(IContext context)
         title: "Move focused window to the previous inactive workspace",
         callback: () => context.WorkspaceManager.MoveWindowToAdjacentWorkspace(reverse: true, skipActive: true)
     );
-    
+
     // Move current window to previous workspace, skipping over those that are active on other monitors
     context.CommandManager.Add(
         identifier: "move_window_to_next_workspace",
         title: "Move focused window to the next inactive workspace",
         callback: () => context.WorkspaceManager.MoveWindowToAdjacentWorkspace(skipActive: true)
     );
-    
+
     /*****************
      * Swap monitors *
      *****************/
 
     // Swap workspace with next monitor
     context.CommandManager.Add(
-            identifier:"swap_workspace_with_next_monitor", 
+            identifier:"swap_workspace_with_next_monitor",
             title: "Swap monitors",
             callback: () => context.WorkspaceManager.SwapActiveWorkspaceWithAdjacentMonitor()
     );
@@ -118,11 +118,11 @@ void AddUserCommands(IContext context)
                 }
             }
     );
-    
+
     /****************
      * Close window *
      ****************/
-     
+
     // Close active window
     context.CommandManager.Add(
         identifier: "close_window",
