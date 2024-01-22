@@ -174,8 +174,8 @@ void DoConfig(IContext context)
     // Note: bindings are intended for Colemak-DH keyboard layout and probably don't make much sense for QWERTY
 
     // Modifiers
-    KeyModifiers Mod1 = KeyModifiers.LAlt;
-    KeyModifiers Mod2 = KeyModifiers.LAlt | KeyModifiers.LShift;
+    KeyModifiers mod1 = KeyModifiers.LAlt;
+    KeyModifiers mod2 = KeyModifiers.LAlt | KeyModifiers.LShift;
 
     void Bind(KeyModifiers mod, VIRTUAL_KEY key, string cmd)
     {
@@ -186,43 +186,43 @@ void DoConfig(IContext context)
     context.KeybindManager.Clear();
 
     // Command palette
-    Bind(Mod1, VIRTUAL_KEY.VK_P, "whim.command_palette.toggle");
+    Bind(mod1, VIRTUAL_KEY.VK_P, "whim.command_palette.toggle");
 
     // Focus windows
-    Bind(Mod1, VIRTUAL_KEY.VK_N, "whim.core.focus_window_in_direction.left");
-    Bind(Mod1, VIRTUAL_KEY.VK_I, "whim.core.focus_window_in_direction.right");
-    Bind(Mod1, VIRTUAL_KEY.VK_U, "whim.core.focus_window_in_direction.up");
-    Bind(Mod1, VIRTUAL_KEY.VK_E, "whim.core.focus_window_in_direction.down");
-    Bind(Mod1, VIRTUAL_KEY.VK_M, "whim.slice_layout.focus.promote");
-    Bind(Mod1, VIRTUAL_KEY.VK_O, "whim.core.focus_next_monitor");
+    Bind(mod1, VIRTUAL_KEY.VK_N, "whim.core.focus_window_in_direction.left");
+    Bind(mod1, VIRTUAL_KEY.VK_I, "whim.core.focus_window_in_direction.right");
+    Bind(mod1, VIRTUAL_KEY.VK_U, "whim.core.focus_window_in_direction.up");
+    Bind(mod1, VIRTUAL_KEY.VK_E, "whim.core.focus_window_in_direction.down");
+    Bind(mod1, VIRTUAL_KEY.VK_M, "whim.slice_layout.focus.promote");
+    Bind(mod1, VIRTUAL_KEY.VK_O, "whim.core.focus_next_monitor");
 
     // Move windows
-    Bind(Mod2, VIRTUAL_KEY.VK_N, "whim.core.swap_window_in_direction.left");
-    Bind(Mod2, VIRTUAL_KEY.VK_I, "whim.core.swap_window_in_direction.right");
-    Bind(Mod2, VIRTUAL_KEY.VK_U, "whim.core.swap_window_in_direction.up");
-    Bind(Mod2, VIRTUAL_KEY.VK_E, "whim.core.swap_window_in_direction.down");
-    Bind(Mod2, VIRTUAL_KEY.VK_M, "whim.slice_layout.window.promote");
-    Bind(Mod2, VIRTUAL_KEY.VK_O, "whim.custom.move_window_to_next_monitor");
+    Bind(mod2, VIRTUAL_KEY.VK_N, "whim.core.swap_window_in_direction.left");
+    Bind(mod2, VIRTUAL_KEY.VK_I, "whim.core.swap_window_in_direction.right");
+    Bind(mod2, VIRTUAL_KEY.VK_U, "whim.core.swap_window_in_direction.up");
+    Bind(mod2, VIRTUAL_KEY.VK_E, "whim.core.swap_window_in_direction.down");
+    Bind(mod2, VIRTUAL_KEY.VK_M, "whim.slice_layout.window.promote");
+    Bind(mod2, VIRTUAL_KEY.VK_O, "whim.custom.move_window_to_next_monitor");
 
     // Move around workspaces
-    Bind(Mod1, VIRTUAL_KEY.VK_K, "whim.custom.activate_previous_workspace");
-    Bind(Mod1, VIRTUAL_KEY.VK_H, "whim.custom.activate_next_workspace");
-    Bind(Mod2, VIRTUAL_KEY.VK_K, "whim.custom.move_window_to_previous_workspace");
-    Bind(Mod2, VIRTUAL_KEY.VK_H, "whim.custom.move_window_to_next_workspace");
-    Bind(Mod2, VIRTUAL_KEY.VK_OEM_2, "whim.custom.swap_workspace_with_next_monitor");  // MOD1 + ? or MOD2 + /
+    Bind(mod1, VIRTUAL_KEY.VK_K, "whim.custom.activate_previous_workspace");
+    Bind(mod1, VIRTUAL_KEY.VK_H, "whim.custom.activate_next_workspace");
+    Bind(mod2, VIRTUAL_KEY.VK_K, "whim.custom.move_window_to_previous_workspace");
+    Bind(mod2, VIRTUAL_KEY.VK_H, "whim.custom.move_window_to_next_workspace");
+    Bind(mod2, VIRTUAL_KEY.VK_OEM_2, "whim.custom.swap_workspace_with_next_monitor");  // mod2 + "/" or mod1 + "?"
 
     // Change the layout
-    Bind(Mod1, VIRTUAL_KEY.VK_J, "whim.core.move_window_right_edge_left");
-    Bind(Mod1, VIRTUAL_KEY.VK_L, "whim.core.move_window_right_edge_right");
-    Bind(Mod1, VIRTUAL_KEY.VK_Y, "whim.custom.next_layout_engine");
-    Bind(Mod2, VIRTUAL_KEY.VK_Y, "whim.custom.previous_layout_engine");
+    Bind(mod1, VIRTUAL_KEY.VK_J, "whim.core.move_window_right_edge_left");
+    Bind(mod1, VIRTUAL_KEY.VK_L, "whim.core.move_window_right_edge_right");
+    Bind(mod1, VIRTUAL_KEY.VK_Y, "whim.custom.next_layout_engine");
+    Bind(mod2, VIRTUAL_KEY.VK_Y, "whim.custom.previous_layout_engine");
 
     // Manipulate windows
-    Bind(Mod1, VIRTUAL_KEY.VK_T, "whim.floating_layout.toggle_window_floating");
-    Bind(Mod1, VIRTUAL_KEY.VK_F, "whim.custom.toggle_focus_layout");
-    Bind(Mod2, VIRTUAL_KEY.VK_F, "whim.custom.toggle_focus_maximize");
-    Bind(Mod1, VIRTUAL_KEY.VK_X, "whim.core.minimize_window");
-    Bind(Mod2, VIRTUAL_KEY.VK_C, "whim.custom.close_window");
+    Bind(mod1, VIRTUAL_KEY.VK_T, "whim.floating_layout.toggle_window_floating");
+    Bind(mod1, VIRTUAL_KEY.VK_F, "whim.custom.toggle_focus_layout");
+    Bind(mod2, VIRTUAL_KEY.VK_F, "whim.custom.toggle_focus_maximize");
+    Bind(mod1, VIRTUAL_KEY.VK_X, "whim.core.minimize_window");
+    Bind(mod2, VIRTUAL_KEY.VK_C, "whim.custom.close_window");
 
     /*********************
      * Filters & routers *
