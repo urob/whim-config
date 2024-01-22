@@ -129,7 +129,7 @@ void DoConfig(IContext context)
      **************************/
 
     // Total gap = 2x * 150% scaling
-    int gap = 3;
+    int gap = 4;
 
     // Let focus indicator completely fill gaps
     int borderSize = 3 * gap - 2;
@@ -228,13 +228,19 @@ void DoConfig(IContext context)
      * Filters & routers *
      ********************/
 
-    // context.FilterManager.Clear();
+    // Route to currently active workspace by default
+    context.RouterManager.RouterOptions = RouterOptions.RouteToLastTrackedActiveWorkspace;
+
+    // Custom workspace routings
+    context.RouterManager.AddWindowClassRoute("SunAwtFrame", "\udb80\udd74");      // Pycharm & Rider -> dev
+    context.RouterManager.AddProcessFileNameRoute("firefox.exe", "\udb80\udde7");  // Firefox -> web
+    context.RouterManager.AddProcessFileNameRoute("TIDAL.exe", "\udb85\uddd6");    // Tidal -> other
+
+    // Custom filters (aka ignored windows)
     context.FilterManager.AddTitleMatchFilter(".*[s|S]etup.*");
     context.FilterManager.AddTitleMatchFilter(".*[i|I]nstaller.*");
     context.FilterManager.AddProcessFileNameFilter("X-Mouse Controls.exe");
-
-    context.RouterManager.AddProcessFileNameRoute("firefox.exe", "\udb80\udde7");
-    context.RouterManager.RouterOptions = RouterOptions.RouteToLastTrackedActiveWorkspace;
+    context.FilterManager.AddProcessFileNameFilter("LogiPresentationUI.exe");
 }
 
 return DoConfig;
