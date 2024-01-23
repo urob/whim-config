@@ -149,11 +149,17 @@ void DoConfig(IContext context)
      * Workspaces & layouts *
      ************************/
 
+    Dictionary<string, string> workspaces = new Dictionary<string, string>();
+    void AddWorkspace(string name, string icon) {
+        workspaces.Add(name, icon);
+        context.WorkspaceManager.Add(icon);
+    }
+
     // Workspaces, uses Nerd Fonts icons as names
-    context.WorkspaceManager.Add("\udb81\udea1");  // main  <icon: nf-md-home_outline>
-    context.WorkspaceManager.Add("\udb80\udd74");  // dev   <icon: nf-md-code_tags>
-    context.WorkspaceManager.Add("\udb80\udde7");  // web   <icon: nf-md-earth>
-    context.WorkspaceManager.Add("\udb85\uddd6");  // other <icon: nf-md-book_open_page_variant_outline>
+    AddWorkspace("main", "\udb81\udea1");   // icon: nf-md-home_outline
+    AddWorkspace("code", "\udb80\udd74");   // icon: nf-md-code_tags
+    AddWorkspace("web", "\udb80\udde7");    // icon: nf-md-earth
+    AddWorkspace("other", "\udb85\uddd6");  // icon: nf-md-book_open_page_variant_outline
 
     // Layout engines
     context.WorkspaceManager.CreateLayoutEngines = () => new CreateLeafLayoutEngine[]
@@ -233,9 +239,9 @@ void DoConfig(IContext context)
     context.RouterManager.RouterOptions = RouterOptions.RouteToLastTrackedActiveWorkspace;
 
     // Custom workspace routings
-    context.RouterManager.AddWindowClassRoute("SunAwtFrame", "\udb80\udd74");      // Pycharm & Rider -> dev
-    context.RouterManager.AddProcessFileNameRoute("firefox.exe", "\udb80\udde7");  // Firefox -> web
-    context.RouterManager.AddProcessFileNameRoute("TIDAL.exe", "\udb85\uddd6");    // Tidal -> other
+    context.RouterManager.AddWindowClassRoute("SunAwtFrame", workspaces["code"]);  // Pycharm & Rider
+    context.RouterManager.AddProcessFileNameRoute("firefox.exe", workspaces["web"]);
+    context.RouterManager.AddProcessFileNameRoute("TIDAL.exe", workspaces["other"]);
 
     // Custom filters (aka ignored windows)
     context.FilterManager.AddTitleMatchFilter(".*[s|S]etup.*");
