@@ -4,24 +4,6 @@ using System.Threading.Tasks;  // used for FocusFollowsMouse hack
 void AddUserCommands(IContext context)
 {
 
-    /************************
-     * Cycle layout engines *
-     ************************/
-
-    // Activate next layout engine in `Workspace._layoutEngines`
-    context.CommandManager.Add(
-            identifier:"next_layout_engine",
-            title: "Next Layout Engine",
-            callback: () => context.WorkspaceManager.ActiveWorkspace.CycleLayoutEngine(false)
-    );
-
-    // Activate previous layout engine in `Workspace._layoutEngines`
-    context.CommandManager.Add(
-            identifier:"previous_layout_engine",
-            title: "Previous Layout Engine",
-            callback: () => context.WorkspaceManager.ActiveWorkspace.CycleLayoutEngine(true)
-    );
-
     /************************************
      * Cycle over _inactive_ workspaces *
      ************************************/

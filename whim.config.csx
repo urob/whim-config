@@ -221,8 +221,8 @@ void DoConfig(IContext context)
     // Change the layout
     Bind(mod1, "J", "whim.core.move_window_right_edge_left");
     Bind(mod1, "L", "whim.core.move_window_right_edge_right");
-    Bind(mod1, "Y", "whim.custom.next_layout_engine");
-    Bind(mod2, "Y", "whim.custom.previous_layout_engine");
+    Bind(mod1, "Y", "whim.core.cycle_layout_engine.next");
+    Bind(mod2, "Y", "whim.core.cycle_layout_engine.previous");
 
     // Manipulate windows
     Bind(mod1, "T", "whim.floating_layout.toggle_window_floating");
