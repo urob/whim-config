@@ -248,6 +248,7 @@ void DoConfig(IContext context)
     context.FilterManager.AddTitleMatchFilter(".*[i|I]nstaller.*");
     context.FilterManager.AddProcessFileNameFilter("X-Mouse Controls.exe");
     context.FilterManager.AddProcessFileNameFilter("LogiPresentationUI.exe");
+    context.FilterManager.Add((window) => window.WindowClass.StartsWith("WindowsForms10.Window.20008.app"));  // preview window of explorer on Windows10
 }
 
 return DoConfig;
