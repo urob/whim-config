@@ -194,6 +194,7 @@ void DoConfig(IContext context)
 
     // Command palette
     Bind(mod1, "P", "whim.command_palette.toggle");
+    Bind(mod2, "P", "whim.command_palette.find_focus_window");
 
     // Focus windows
     Bind(mod1, "N", "whim.core.focus_window_in_direction.left");
