@@ -31,10 +31,14 @@ using Whim.FocusIndicator;
 using Whim.Gaps;
 using Whim.LayoutPreview;
 using Whim.SliceLayout;
-using Whim.TreeLayout;
-using Whim.TreeLayout.Bar;
-using Whim.TreeLayout.CommandPalette;
-using Whim.Updater;
+#if TREE
+    using Whim.TreeLayout;
+    using Whim.TreeLayout.Bar;
+    using Whim.TreeLayout.CommandPalette;
+#endif
+#if !DEV
+    using Whim.Updater;
+#endif
 using Windows.Win32.UI.Input.KeyboardAndMouse;
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Media;
@@ -109,7 +113,10 @@ void DoConfig(IContext context)
     };
 
     // Center components
-    List<BarComponent> centerComponents = new() { FocusedWindowWidget.CreateComponent() };
+    List<BarComponent> centerComponents = new()
+    {
+        DateTimeWidget.CreateComponent(60*1000, "MMM d   h:mm tt")
+    };
 
     // Right components, note that these are defined right to left
     List<BarComponent> rightComponents = new()
@@ -117,7 +124,7 @@ void DoConfig(IContext context)
         #if MOBILE
             BatteryWidget.CreateComponent(),
         #endif
-        DateTimeWidget.CreateComponent(60*1000, "M/d/yy  ·  h:mm tt")
+        FocusedWindowWidget.CreateComponent()
     };
 
     BarConfig barConfig = new(leftComponents, centerComponents, rightComponents);
@@ -128,11 +135,11 @@ void DoConfig(IContext context)
      * Gaps & Focus indicator *
      **************************/
 
-    // Total gap = 2x * 150% scaling
-    int gap = 4;
+    // Total gap = 2 * floor(scale * x), looks good with 150% display scale
+    int gap = 5;
 
-    // Let focus indicator completely fill gaps
-    int borderSize = 3 * gap - 2;
+    // Border width of focused window
+    int borderSize = 4;
 
     // Gaps plugin
     GapsConfig gapsConfig = new() { OuterGap = gap, InnerGap = gap };
