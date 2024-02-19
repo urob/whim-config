@@ -9,11 +9,11 @@
     <FontFamily x:Key="_font:family">Segoe UI Variable Small</FontFamily>
 
     <!--  Colors  -->
-    <Color x:Key="_base:background">#2e3440</Color>
-    <Color x:Key="_base:foreground">#e5e9f0</Color>
-    <Color x:Key="_button:workspace">#81a1c1</Color>
-    <Color x:Key="_button:layout">#ebcb8b</Color>
-    <Color x:Key="_button:tree_layout">#b3d3d9</Color>
+    <Color x:Key="_base:background">#282c34</Color>
+    <Color x:Key="_base:foreground">#abb2bf</Color>
+    <Color x:Key="_base:foreground:dimmed">#5c6370</Color>
+    <Color x:Key="_button:background:active">#3e4452</Color>
+    <Color x:Key="_button:background:accent">#abb2bf </Color>
     <Color x:Key="bar:hover:background">#15ffffff</Color>
     <Color x:Key="bar:hover:foreground">#65ffffff</Color>
 
@@ -40,6 +40,8 @@
         <Setter Property="Background" Value="{StaticResource _base:background}" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="0,2" />
+        <!-- <Setter Property="BorderThickness" Value="0,0,0,1" /> -->
+        <!-- <Setter Property="BorderBrush" Value="#434345" /> -->
     </Style>
 
     <!--  Sub panels  -->
@@ -53,7 +55,7 @@
         x:Key="bar:active_layout:button"
         BasedOn="{StaticResource _base:button}"
         TargetType="Button">
-        <Setter Property="Background" Value="{StaticResource _button:layout}" />
+        <Setter Property="Background" Value="{StaticResource _button:background:accent}" />
         <Setter Property="Foreground" Value="{StaticResource _base:background}" />
         <Setter Property="Margin" Value="0,0,2,0" />
     </Style>
@@ -63,20 +65,20 @@
         x:Key="bar:tree_layout:button"
         BasedOn="{StaticResource _base:button}"
         TargetType="Button">
-        <Setter Property="Background" Value="{StaticResource _button:tree_layout}" />
+        <Setter Property="Background" Value="{StaticResource _button:background:active}" />
         <Setter Property="Foreground" Value="{StaticResource _base:background}" />
         <Setter Property="Margin" Value="0" />
     </Style>
 
     <!--  Workspace widget  -->
-    <StaticResource x:Key="bar:active_workspace:background" ResourceKey="_button:workspace" />
-    <StaticResource x:Key="bar:active_workspace:foreground" ResourceKey="_base:background" />
+    <StaticResource x:Key="bar:active_workspace:background" ResourceKey="_button:background:active" />
+    <StaticResource x:Key="bar:active_workspace:foreground" ResourceKey="_base:foreground" />
     <Style
         x:Key="bar:workspace:button"
         BasedOn="{StaticResource _base:button}"
         TargetType="Button">
         <Setter Property="Background" Value="{StaticResource _base:background}" />
-        <Setter Property="Foreground" Value="{StaticResource _button:workspace}" />
+        <Setter Property="Foreground" Value="{StaticResource _base:foreground:dimmed}" />
         <Setter Property="Margin" Value="2,0" />
         <Setter Property="FontFamily" Value="Ubuntu Nerd Font Propo" />
     </Style>
@@ -89,7 +91,7 @@
         x:Key="bar:date_time:text_block"
         BasedOn="{StaticResource _base:text_block}"
         TargetType="TextBlock">
-        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontSize" Value="13" />
     </Style>
 
 </ResourceDictionary>
