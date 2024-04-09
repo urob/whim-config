@@ -12,28 +12,28 @@ void AddUserCommands(IContext context)
     context.CommandManager.Add(
         identifier: "activate_previous_workspace",
         title: "Activate the previous inactive workspace",
-        callback: () => context.WorkspaceManager.ActivateAdjacent(reverse: true, skipActive: true)
+        callback: () => context.Butler.ActivateAdjacent(reverse: true, skipActive: true)
     );
 
     // Activate previous workspace, skipping over those that are active on other monitors
     context.CommandManager.Add(
         identifier: "activate_next_workspace",
         title: "Activate the next inactive workspace",
-        callback: () => context.WorkspaceManager.ActivateAdjacent(skipActive: true)
+        callback: () => context.Butler.ActivateAdjacent(skipActive: true)
     );
 
     // Move current window to next workspace, skipping over those that are active on other monitors
     context.CommandManager.Add(
         identifier: "move_window_to_previous_workspace",
         title: "Move focused window to the previous inactive workspace",
-        callback: () => context.WorkspaceManager.MoveWindowToAdjacentWorkspace(reverse: true, skipActive: true)
+        callback: () => context.Butler.MoveWindowToAdjacentWorkspace(reverse: true, skipActive: true)
     );
 
     // Move current window to previous workspace, skipping over those that are active on other monitors
     context.CommandManager.Add(
         identifier: "move_window_to_next_workspace",
         title: "Move focused window to the next inactive workspace",
-        callback: () => context.WorkspaceManager.MoveWindowToAdjacentWorkspace(skipActive: true)
+        callback: () => context.Butler.MoveWindowToAdjacentWorkspace(skipActive: true)
     );
 
     /*****************
@@ -44,7 +44,7 @@ void AddUserCommands(IContext context)
     context.CommandManager.Add(
             identifier:"swap_workspace_with_next_monitor",
             title: "Swap monitors",
-            callback: () => context.WorkspaceManager.SwapActiveWorkspaceWithAdjacentMonitor()
+            callback: () => context.Butler.SwapWorkspaceWithAdjacentMonitor()
     );
 
     /***********************
@@ -134,7 +134,7 @@ void AddUserCommands(IContext context)
                 return;
             }
 
-            IMonitor? oldMonitor = context.WorkspaceManager.GetMonitorForWindow(window);
+            IMonitor? oldMonitor = context.Butler.Pantry.GetMonitorForWindow(window);
             if (oldMonitor == null)
             {
                 Logger.Error($"Window {window} was not found in any monitor");
@@ -147,14 +147,14 @@ void AddUserCommands(IContext context)
                 return;
             }
 
-            IWorkspace? workspace = context.WorkspaceManager.GetWorkspaceForMonitor(nextMonitor);
+            IWorkspace? workspace = context.Butler.Pantry.GetWorkspaceForMonitor(nextMonitor);
             if (workspace == null)
             {
                 Logger.Error($"Monitor {nextMonitor} was not found in any workspace");
                 return;
             }
 
-            context.WorkspaceManager.MoveWindowToWorkspace(workspace, window);
+            context.Butler.MoveWindowToWorkspace(workspace, window);
             Task.Run(async delegate
             {
                 await Task.Delay(200);
