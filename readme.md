@@ -8,6 +8,14 @@ My keybind configuration is intended to be used on a Colemak keyboard layout. He
 
 <img src="img/bindings.png" width="100%" />
 
+## Useful stuff
+
+- streamlined keybinds with `Bind(mod1, "P", "whim.command_palette.toggle");`
+- icon labels for workspaces in status bar
+- binds to cycle over workspaces, skipping those that are active on any monitor
+- binds to swap monitors
+- `Alt + F` unmaximizes and toggles focus layout, `Shift + Alt + F` maximizes if focus layout isn't active and otherwise toggles maximize
+
 ## Icons in the workspace viewer
 
 For the icons to work one must install a [Nerd Font](https://www.nerdfonts.com/) and use it for the Workspace widget. Here's the relevant line in my `bar.resources.xaml`:
