@@ -2,7 +2,7 @@
 #r "WHIM_PATH\whim.dll"
 #r "WHIM_PATH\plugins\Whim.Bar\Whim.Bar.dll"
 #r "WHIM_PATH\plugins\Whim.CommandPalette\Whim.CommandPalette.dll"
-#r "WHIM_PATH\plugins\Whim.FloatingLayout\Whim.FloatingLayout.dll"
+#r "WHIM_PATH\plugins\Whim.FloatingWindow\Whim.FloatingWindow.dll"
 #r "WHIM_PATH\plugins\Whim.FocusIndicator\Whim.FocusIndicator.dll"
 #r "WHIM_PATH\plugins\Whim.Gaps\Whim.Gaps.dll"
 #r "WHIM_PATH\plugins\Whim.LayoutPreview\Whim.LayoutPreview.dll"
@@ -23,10 +23,12 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.UI;
+using Microsoft.UI.Xaml.Media;
 using Whim;
 using Whim.Bar;
 using Whim.CommandPalette;
-using Whim.FloatingLayout;
+using Whim.FloatingWindow;
 using Whim.FocusIndicator;
 using Whim.Gaps;
 using Whim.LayoutPreview;
@@ -40,8 +42,6 @@ using Whim.SliceLayout;
     using Whim.Updater;
 #endif
 using Windows.Win32.UI.Input.KeyboardAndMouse;
-using Microsoft.UI;
-using Microsoft.UI.Xaml.Media;
 
 void DoConfig(IContext context)
 {
@@ -72,8 +72,8 @@ void DoConfig(IContext context)
     context.PluginManager.AddPlugin(layoutPreviewPlugin);
 
     // Floating window plugin
-    FloatingLayoutPlugin floatingLayoutPlugin = new(context);
-    context.PluginManager.AddPlugin(floatingLayoutPlugin);
+    FloatingWindowPlugin floatingWindowPlugin = new(context);
+    context.PluginManager.AddPlugin(floatingWindowPlugin);
 
     // Slice layout
     SliceLayoutPlugin sliceLayoutPlugin = new(context);
@@ -233,7 +233,7 @@ void DoConfig(IContext context)
     Bind(mod2, "Y", "whim.core.cycle_layout_engine.previous");
 
     // Manipulate windows
-    Bind(mod1, "T", "whim.floating_layout.toggle_window_floating");
+    Bind(mod1, "T", "whim.floating_window.toggle_window_floating");
     Bind(mod1, "F", "whim.custom.toggle_focus_layout");
     Bind(mod2, "F", "whim.custom.toggle_focus_maximize");
     Bind(mod1, "X", "whim.core.minimize_window");
