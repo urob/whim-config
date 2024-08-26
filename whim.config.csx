@@ -254,6 +254,8 @@ void DoConfig(IContext context)
     // Custom filters (aka ignored windows)
     context.FilterManager.AddTitleMatchFilter(".*[s|S]etup.*");
     context.FilterManager.AddTitleMatchFilter(".*[i|I]nstaller.*");
+    context.FilterManager.AddProcessFileNameFilter("SshTaskTray.exe");  // ScanSnap Task Tray
+    context.FilterManager.AddProcessFileNameFilter("PfuSshMain.exe");  // ScanSnap Home
     context.FilterManager.AddProcessFileNameFilter("X-Mouse Controls.exe");
     context.FilterManager.AddProcessFileNameFilter("LogiPresentationUI.exe");
     context.FilterManager.Add((window) => window.WindowClass.StartsWith("WindowsForms10.Window.20008.app"));  // preview window of explorer on Windows10
