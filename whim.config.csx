@@ -172,11 +172,12 @@ void DoConfig(IContext context)
     context.WorkspaceManager.CreateLayoutEngines = () => new CreateLeafLayoutEngine[]
     {
         (id) => CustomLayouts.CreateGridLayout(context, sliceLayoutPlugin, id, "Grid"),
-        (id) => CustomLayouts.CreatePrimaryStackLayout(context, sliceLayoutPlugin, id, 0.6, true, "Primary stack"),
-        (id) => CustomLayouts.CreateSecondaryPrimaryLayout(context, sliceLayoutPlugin, id, 1, 2, "Secondary stack"),
+        // (id) => CustomLayouts.CreatePrimaryStackLayout(context, sliceLayoutPlugin, id, 0.6, true, "Primary stack"),
+        // (id) => CustomLayouts.CreateSecondaryPrimaryLayout(context, sliceLayoutPlugin, id, 1, 2, "Secondary stack"),
         #if TREE
             (id) => new TreeLayoutEngine(context, treeLayoutPlugin, id) {Name = "Tree"},
         #endif
+        (id) => new FloatingLayoutEngine(context, id) {Name = "Float"},
         (id) => new FocusLayoutEngine(id) {Name = "Focus"}
     };
 
