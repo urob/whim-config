@@ -147,7 +147,7 @@ void DoConfig(IContext context)
     context.PluginManager.AddPlugin(gapsPlugin);
 
     // Focus indicator
-    Brush borderBrush = new SolidColorBrush(ColorHelper.FromArgb(255, 229, 192, 123));
+    Brush borderBrush = new SolidColorBrush(ColorHelper.FromArgb(255, 0, 120, 212));
     FocusIndicatorConfig focusIndicatorConfig = new() { Color = borderBrush, FadeEnabled = false, BorderSize = borderSize };
     FocusIndicatorPlugin focusIndicatorPlugin = new(context, focusIndicatorConfig);
     context.PluginManager.AddPlugin(focusIndicatorPlugin);

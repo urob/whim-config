@@ -2,20 +2,20 @@
 
     <!--  Bar height. Must not contain any property other than "Height" -->
     <Style x:Key="bar:height" TargetType="RelativePanel">
-        <Setter Property="Height" Value="28" />
+        <Setter Property="Height" Value="29" />
     </Style>
 
     <!--  Font family  -->
     <FontFamily x:Key="_font:family">Segoe UI Variable Small</FontFamily>
 
     <!--  Colors  -->
-    <Color x:Key="_base:background">#282c34</Color>
-    <Color x:Key="_base:foreground">#abb2bf</Color>
-    <Color x:Key="_base:foreground:dimmed">#5c6370</Color>
-    <Color x:Key="_button:background:active">#3e4452</Color>
-    <Color x:Key="_button:background:accent">#abb2bf </Color>
-    <Color x:Key="bar:hover:background">#15ffffff</Color>
-    <Color x:Key="bar:hover:foreground">#65ffffff</Color>
+    <Color x:Key="_base:background">#eeeeee</Color>
+    <Color x:Key="_base:foreground">#1a1a1a</Color>
+    <Color x:Key="_base:foreground:dimmed">#1a1a1a</Color>
+    <Color x:Key="_button:background:active">#f8f8f8</Color>
+    <Color x:Key="_button:background:accent">#eeeeee </Color>
+    <Color x:Key="bar:hover:background">#15000000</Color>
+    <Color x:Key="bar:hover:foreground">#65000000</Color>
 
     <!--  Shared text block style  -->
     <Style x:Key="_base:text_block" TargetType="TextBlock">
@@ -40,8 +40,8 @@
         <Setter Property="Background" Value="{StaticResource _base:background}" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="0,2" />
-        <!-- <Setter Property="BorderThickness" Value="0,0,0,1" /> -->
-        <!-- <Setter Property="BorderBrush" Value="#434345" /> -->
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+        <Setter Property="BorderBrush" Value="#bdbdbd" />
     </Style>
 
     <!--  Sub panels  -->
@@ -56,7 +56,7 @@
         BasedOn="{StaticResource _base:button}"
         TargetType="Button">
         <Setter Property="Background" Value="{StaticResource _button:background:accent}" />
-        <Setter Property="Foreground" Value="{StaticResource _base:background}" />
+        <Setter Property="Foreground" Value="{StaticResource _base:foreground}" />
         <Setter Property="Margin" Value="0,0,2,0" />
     </Style>
 
