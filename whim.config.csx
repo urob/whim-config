@@ -11,19 +11,23 @@
 #r "WHIM_PATH\plugins\Whim.TreeLayout.Bar\Whim.TreeLayout.Bar.dll"
 #r "WHIM_PATH\plugins\Whim.TreeLayout.CommandPalette\Whim.TreeLayout.CommandPalette.dll"
 #r "WHIM_PATH\plugins\Whim.Updater\Whim.Updater.dll"
+#r "WHIM_PATH\plugins\Whim.Yaml\Whim.Yaml.dll"
 
 // Load local resources
 #load "C:\Users\rober\.whim\whim.commands.csx"
 #load "C:\Users\rober\.whim\whim.layouts.csx"
 
 // Set compiler options
-#define DEV    // raise debug level and de-activate auto-updater
+// #define DEV    // raise debug level and de-activate auto-updater
 #undef MOBILE  // add battery widget to bar
 #undef TREE    // configure tree layout and its plugins
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Microsoft.UI;
+using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
 using Whim;
 using Whim.Bar;
@@ -50,6 +54,8 @@ void DoConfig(IContext context)
     #else
         context.Logger.Config = new LoggerConfig() { BaseMinLogLevel = LogLevel.Error };
     #endif
+
+    // YamlLoader.Load(context);
 
     /***********
      * Plugins *
@@ -148,7 +154,13 @@ void DoConfig(IContext context)
 
     // Focus indicator
     Brush borderBrush = new SolidColorBrush(ColorHelper.FromArgb(255, 0, 120, 212));
-    FocusIndicatorConfig focusIndicatorConfig = new() { Color = borderBrush, FadeEnabled = false, BorderSize = borderSize };
+    FocusIndicatorConfig focusIndicatorConfig = new()
+    {
+        Color = borderBrush,
+        FadeEnabled = true,
+        FadeTimeout = new TimeSpan(0, 0, 2),
+        BorderSize = borderSize
+    };
     FocusIndicatorPlugin focusIndicatorPlugin = new(context, focusIndicatorConfig);
     context.PluginManager.AddPlugin(focusIndicatorPlugin);
 
@@ -159,7 +171,7 @@ void DoConfig(IContext context)
     Dictionary<string, string> workspaces = new Dictionary<string, string>();
     void AddWorkspace(string name, string icon) {
         workspaces.Add(name, icon);
-        context.WorkspaceManager.Add(icon);
+        context.Store.Dispatch(new AddWorkspaceTransform(Name: icon));
     }
 
     // Workspaces, uses Nerd Fonts icons as names
@@ -169,17 +181,19 @@ void DoConfig(IContext context)
     AddWorkspace("other", "\udb85\uddd6");  // icon: nf-md-book_open_page_variant_outline
 
     // Layout engines
-    context.WorkspaceManager.CreateLayoutEngines = () => new CreateLeafLayoutEngine[]
-    {
-        (id) => CustomLayouts.CreateGridLayout(context, sliceLayoutPlugin, id, "Grid"),
-        // (id) => CustomLayouts.CreatePrimaryStackLayout(context, sliceLayoutPlugin, id, 0.6, true, "Primary stack"),
-        // (id) => CustomLayouts.CreateSecondaryPrimaryLayout(context, sliceLayoutPlugin, id, 1, 2, "Secondary stack"),
-        #if TREE
-            (id) => new TreeLayoutEngine(context, treeLayoutPlugin, id) {Name = "Tree"},
-        #endif
-        (id) => new FloatingLayoutEngine(context, id) {Name = "Float"},
-        (id) => new FocusLayoutEngine(id) {Name = "Focus"}
-    };
+    context.Store.Dispatch(
+        new SetCreateLayoutEnginesTransform(
+            () => new CreateLeafLayoutEngine[]
+            {
+                (id) => CustomLayouts.CreateGridLayout(context, sliceLayoutPlugin, id, "Grid"),
+                #if TREE
+                    (id) => new TreeLayoutEngine(context, treeLayoutPlugin, id) {Name = "Tree"},
+                #endif
+                (id) => new FloatingLayoutEngine(context, id) {Name = "Float"},
+                (id) => new FocusLayoutEngine(id) {Name = "Focus"}
+            }
+        )
+    );
 
     /****************
      * Key bindings *
@@ -201,8 +215,7 @@ void DoConfig(IContext context)
     context.KeybindManager.Clear();
 
     // Command palette
-    Bind(mod1, "P", "whim.command_palette.toggle");
-    Bind(mod2, "P", "whim.command_palette.find_focus_window");
+    Bind(mod2, "P", "whim.command_palette.toggle");
 
     // Focus windows
     Bind(mod1, "N", "whim.core.focus_window_in_direction.left");
@@ -255,6 +268,7 @@ void DoConfig(IContext context)
     // Custom filters (aka ignored windows)
     context.FilterManager.AddTitleMatchFilter(".*[s|S]etup.*");
     context.FilterManager.AddTitleMatchFilter(".*[i|I]nstaller.*");
+    context.FilterManager.AddTitleMatchFilter("Graph - .*");
     context.FilterManager.AddProcessFileNameFilter("SshTaskTray.exe");  // ScanSnap Task Tray
     context.FilterManager.AddProcessFileNameFilter("PfuSshMain.exe");  // ScanSnap Home
     context.FilterManager.AddProcessFileNameFilter("X-Mouse Controls.exe");
